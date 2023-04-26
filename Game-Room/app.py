@@ -95,6 +95,16 @@ def login():
 db1_name = 'admin.db'
 
 
+# GetAdmins route
+@app.route('/getAdmins', methods=['GET', 'POST'])
+def getAdmins():
+    conn = sqlite3.connect('admin.db')
+    c = conn.cursor()
+    c.execute('''SELECT * FROM admins''')
+    admins = c.fetchall()
+    conn.close()
+    return admins
+
 # Signup route
 @app.route('/clear_data', methods=['GET', 'POST'])
 def clear_data():
@@ -135,7 +145,7 @@ def signup1():
         email = request.form['email']
         password = request.form['password']
         confirm_password = request.form['confirm_password']
-        secret_key = request.form['secret_key']
+        secret_key = '123'
         
         # Check if the email already exists in the database
         conn = sqlite3.connect(db1_name)
@@ -168,7 +178,7 @@ def alogin():
     if request.method == 'POST':
         email = request.form['email']
         password = request.form['password']
-        if email == 'shaikfouziya.20.cse@anits.edu.in' and password == 'fouzi':
+        if email == 'fouziyashaik028@gmail.com' and password == 'fouzi':
             session['user_id'] = 'admin'
             session['progress'] = 0
             return render_template('agame.html')
@@ -288,6 +298,13 @@ def userDashboard():
 @app.route('/goback')
 def goback():
     return render_template('game.html')
+
+@app.route('/gitpull')
+def gitpull():
+    os.chdir('/home/ec2-user/game-application')
+    subprocess.call(['git', 'pull'])
+    return 'Git pull completed.'
+
 
 if __name__ == '__main__':
     # app.run(debug=True,port=4000)

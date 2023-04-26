@@ -2,10 +2,12 @@
 <html>
   <head>
     <title>All Users</title>
+    <link rel="stylesheet" href="../static/css/game-room.css">
+
     <style>
       body {
         background-color: #f1f1f1;
-        background-image: url("https://i.pinimg.com/originals/0d/31/db/0d31db928403483743107ed087f469bf.jpg");
+        background-image: url("../static/images/background6.jpg");
         background-size: cover;
         background-repeat: no-repeat;
         background-size: 100% 100%;
@@ -89,7 +91,9 @@
       table {
         border-collapse: collapse;
       }
-      
+      tr{
+        color: #000;
+      }
       td, th {
         border: none;
       }
@@ -97,21 +101,7 @@
       td, th {
         font-size: 20px;
       }
-      .btn-go-back {
-        position: absolute;
-        top: 30px;
-        right: 30px;
-        padding: 10px;
-        background-color: #424242;
-        color: #fff;
-        text-transform: uppercase;
-        font-size: 14px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
-        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-    }
+     
     .btn-go-back:hover {
         transform: translateY(-2px);
         box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
@@ -120,7 +110,7 @@
     </style>
   </head>
   <body>
-    <button class="btn-go-back" onclick="goBack()">Go Back</button>
+    <button class="btn btn-sm"  onclick="goBack()">Go Back</button>
     <br><br>
     <h1>All Users Status</h1>
     <br>
