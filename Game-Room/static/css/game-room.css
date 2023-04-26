@@ -432,7 +432,7 @@ footer .image {
     z-index: 999;
     position: absolute;
     transform: translate(10px, 40px);
-    bottom: 200px;
+    bottom: 10px;
   }
 #statement-box{
     font-size: 18px;
