@@ -16,12 +16,13 @@
       href="https://thumbs.dreamstime.com/b/escape-to-island-concept-summer-seaside-landscape-blue-ocean-scenic-view-hand-drawn-tropica-poster-holiday-vacation-season-sea-136710208.jpg"
       type="image/x-icon"
     />
+    <link rel="stylesheet" href="../static/css/game-room.css">
     <!-- Custom CSS -->
     <style>
       body {
         color: #fff;
         font-family: Arial, sans-serif;
-        background-image: url(https://www.godisageek.com/wp-content/uploads/Escape-Academy-Escape-from-Anti-Escape-Island-Walkthrough.jpg);
+        background-image: url('../static/images/background6.jpg');
         background-repeat: no-repeat; /* Do not repeat the image */
         background-size: cover;
       }
@@ -104,13 +105,13 @@
     <div class="container">
       <h1>Welcome to Mystery Island...</h1>
       <button
-        class="btn btn-lg"
+        class="btn btn-sm"
         id="logout-btn"
         onclick="location.href='/logout'"
       >
         Logout
       </button>
-      <button class="btn btn-lg" id="adv-btn" onclick="startAdventure()">
+      <button class="btn btn-sm" id="adv-btn" onclick="startAdventure()">
         Check Users Info
       </button>
     </div>
