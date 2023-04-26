@@ -253,7 +253,8 @@ body {
 .gameroom-banner .info h1,
 .gameroom-banner .info h2 {
     font-size: 5rem;
-    text-transform: uppercase
+    text-transform: uppercase;
+    margin: 0px !important;
 }
 .info{
     z-index: 999;
@@ -403,7 +404,7 @@ footer .image {
     border-radius: 10px;
   }
   #main-question{
-    padding: 50px;
+    padding: 10px;
   }
  .quiz{
      font-size: 24px;
