@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Game Room</title>
+  <link rel="stylesheet" href="../static/css/game-room.css" data-minify="1" />
+</head>
+<style>
+#stats-data {
+  font-family: Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+#stats-data td, #stats-data th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+
+#stats-data tr:hover {background-color: #000;}
+
+#stats-data th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #04AA6D;
+  color: white;
+}
+</style>
+<body class="bp-legacy">
+
+  <nav class="navbar-gameroom navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#"> <img src="../static/images/logo.png" alt="" /> </a>
+        <button class="btn btn-sm" id="logout-btn" onclick="location.href='/goback'">
+            <b>Home</b>
+          </button>
+        <button class="btn btn-sm" id="logout-btn" onclick="location.href='/logout'">
+          <b>Logout</b>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+  <section class="content-wrap">
+    <div class="gameroom-banner-parallax gameroom-banner gameroom-banner-id-1 mid banner-top">
+      <div class="image" data-speed="0.4">
+        <img width="1400" height="100%" src="../static/images/background6.jpg" class="jarallax-img" />
+      </div>
+      <div class="info">
+        <div id="main-question">
+            <h1>All Users Status</h1>
+            <br>
+            <table id="stats-data">
+              <thead>
+                <tr>
+                  <th>User</th>
+                  <th>Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for row in rows %}
+                <tr>
+                  <td>{{ row.username }}</td>
+                  <td>{{ row.points }}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+
+
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+  <div class="copyright">
+    <div class="container">
+      <div><strong>Fouziya</strong> © 2023. All rights reserved</div>
+    </div>
+  </div>
+
+
+</body>
+
+<!-- JavaScript -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+<script>
+    var rows = JSON.parse('{{ rows|tojson|safe }}');
+
+    console.log(rows);
+
+</script>
+
+
+
+
+</html>

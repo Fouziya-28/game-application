@@ -177,6 +177,7 @@ def alogin():
             return render_template('alogin.html', error=error)
     else:
         return render_template('alogin.html')
+
     
 # Route to display all users
 @app.route('/users')
@@ -275,17 +276,19 @@ def update_points():
     
     return 'OK'
 
-@app.route('/leaderboard_data')
-def leaderboard_data():
+@app.route('/userDashboard')
+def userDashboard():
     conn = sqlite3.connect('users.db')
     c = conn.cursor()
     c.execute('SELECT username, points FROM users ORDER BY points DESC')
     data = [{'username': row[0], 'points': row[1]} for row in c.fetchall()]
     conn.close()
-    return jsonify(data)
+    return render_template('stats.html', rows = data)
 
-
+@app.route('/goback')
+def goback():
+    return render_template('game.html')
 
 if __name__ == '__main__':
-    #app.run(debug=True,port=4000)
+    # app.run(debug=True,port=4000)
     app.run(host='0.0.0.0',debug=True,port=80)

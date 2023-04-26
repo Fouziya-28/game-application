@@ -15,6 +15,9 @@
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brand" href="#"> <img src="../static/images/logo.png" alt="" /> </a>
+        <button class="btn btn-sm" id="logout-btn" onclick="location.href='/userDashboard'">
+          <b>User Dashboard</b>
+        </button>
         <button class="btn btn-sm" id="logout-btn" onclick="location.href='/logout'">
           <b>Logout</b>
         </button>
@@ -82,6 +85,9 @@
   function startAdventure() {
     localStorage.clear();
     window.location.href = "/clues/game.html";
+  }
+  function redirectToDashboard(){
+    window.location.href = "/stats.html";
   }
 </script>
 
