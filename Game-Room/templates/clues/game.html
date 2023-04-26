@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Game Room</title>
+  <link rel="stylesheet" href="../static/css/game-room.css" data-minify="1" />
+</head>
+
+<body class="bp-legacy">
+
+  <nav class="navbar-gameroom navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#"> <img src="../static/images/logo.png" alt="" /> </a>
+        <button class="btn btn-sm" id="logout-btn" onclick="location.href='/logout'">
+          <b>Logout</b>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+  <section class="content-wrap">
+    <div class="gameroom-banner-parallax gameroom-banner gameroom-banner-id-1 mid banner-top">
+      <div class="image" data-speed="0.4">
+        <img width="1400" height="100%" src="../static/images/background6.jpg" class="jarallax-img" />
+      </div>
+      <div class="info">
+        <div class="">
+          <ul class="listitems">
+            <li>
+              <button class="btn btn-sm" id="hint-btn" onclick="startAdventure()">
+                <b>Quiz</b>
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-sm" id="read-instruction" class="fouzi">
+                <b>Instructions</b>
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-sm" id="hint-btn" onclick="restart()">
+                <b>Restart Game</b>
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-sm" id="total-points" onmouseover="showTotalPoints()">
+                <b>Total Score</b>
+                <!-- <span id="total-points-box"> -->
+                <span id="total-points-text">0</span>
+                <!-- </span> -->
+              </button>
+            </li>
+            <li>
+              <button class="btn btn-sm" id="hint-btn" onclick="goBack()">
+                <b>Home Page</b>
+              </button>
+            </li>
+          </ul>
+
+
+          <div id="main-question" class="animate__animated animate__fadeIn">
+            <h5 class="quiz">The more you take, the more you leave behind. What am I ???</h5>
+            <input type="text" id="answer-input" name="answer" placeholder="Any Guess ?" required />
+            <button type="submit" class="btn btn-sm" id="submit-btn" value="Submit"
+              onclick="checkAnswer()">Submit</button>
+            <button class="btn btn-sm" id="adv-btn" onclick="startAdventure()">
+              Get Hints
+            </button>
+            <!-- <button id="read-instruction" class="fouzi">Read Instructions</button> -->
+            </button>
+          </div>
+          <div id="statement-box"></div>
+          <div id="congrats"></div>
+
+
+
+        </div>
+
+      </div>
+      <div id="instructions-box"></div>
+
+
+    </div>
+  </section>
+
+  <div class="copyright">
+    <div class="container">
+      <div><strong>Fouziya</strong> © 2023. All rights reserved</div>
+    </div>
+  </div>
+
+</body>
+
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function showTotalPoints() {
+    var totalPoints = localStorage.getItem("totalPoints") || 0;
+
+
+    if (localStorage.getItem("currentClue")) {
+      var currentClue = parseInt(localStorage.getItem("currentClue"));
+      if (currentClue == 5) {
+        totalPoints = parseInt(localStorage.getItem("totalPoints")) + 100;
+      } else if (currentClue == 4) {
+        totalPoints = parseInt(localStorage.getItem("totalPoints")) + 200;
+      } else if (currentClue == 3) {
+        totalPoints = parseInt(localStorage.getItem("totalPoints")) + 300;
+      } else if (currentClue == 2) {
+        totalPoints = parseInt(localStorage.getItem("totalPoints")) + 400;
+      }
+    } else {
+      totalPoints = 500;
+    }
+
+    const totalPointsBox = document.getElementById("total-points-box");
+    const totalPointsText = document.getElementById("total-points-text");
+
+    totalPointsText.innerHTML = `${totalPoints}`;
+
+    totalPointsText.style.display = "inline-block";
+
+    // hide the box on mouseout
+    totalPointsText.addEventListener("mouseout", function () {
+      totalPointsText.style.display = "none";
+    });
+
+    // prevent the box from hiding on mouseout if the mouse is still over the box
+    totalPointsText.addEventListener("mouseover", function () {
+      totalPointsText.style.display = "inline-block";
+    });
+
+    // hide the box when the mouse leaves the button
+    document.getElementById("total-points").addEventListener("mouseout", function () {
+      totalPointsText.style.display = "none";
+    });
+  }
+
+
+
+  var statements = [
+    " 0th clue",
+    "I come in pairs, but I'm not shoes !",
+    "I can lead you to new places, but I can also lead you astray !!",
+    "I come in many shapes and sizes !!!",
+    "I'm often associated with detective work !!!!",
+    "I'm made when a person takes a step !!!!!"
+  ];
+  var currentClue = localStorage.getItem("currentClue");;
+
+
+  document.getElementById("adv-btn").addEventListener("mouseover", function () {
+    var statementBox = document.getElementById("statement-box");
+    statementBox.innerHTML = "";
+    for (let i = 1; i < currentClue; i++) {
+      statementBox.innerHTML += "<p>" + statements[i] + "</p>";
+    }
+    statementBox.style.display = "block";
+  });
+
+  document.getElementById("adv-btn").addEventListener("mouseout", function () {
+    var statementBox = document.getElementById("statement-box");
+    statementBox.style.display = "none";
+  });
+
+  function startAdventure() {
+    var currentTime = new Date().getTime();
+
+    // Store the current time in localStorage
+    localStorage.setItem("startTime", currentTime);
+
+
+    fetch("/check-user")
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.progress == 1) {
+          localStorage.clear();
+        }
+        if (localStorage.getItem("currentClue")) {
+          var currentClue = parseInt(localStorage.getItem("currentClue"));
+          if (currentClue == 6) {
+            alert("All clues are unlocked!");
+          } else if (currentClue >= 1 && currentClue <= 5) {
+            window.location.href = `/clues/${currentClue}.html`;
+            // window.location.href = `/clues/word-game.html`;
+
+          } else {
+            window.location.href = "/clues/1.html";
+            // window.location.href = `/clues/word-game.html`;
+          }
+        } else {
+          // window.location.href = `/clues/word-game.html`;
+          window.location.href = "/clues/1.html";
+        }
+      });
+  }
+
+  function checkAnswer() {
+    debugger
+    var answerInput = document.getElementById("answer-input");
+    var answer = answerInput.value.trim().toLowerCase();
+    if (answer === "footsteps") {
+      window.location.href = "/treasure.html";
+
+      if (localStorage.getItem("currentClue")) {
+        var currentClue = parseInt(localStorage.getItem("currentClue"));
+        if (currentClue == 6) {
+          var totalPoints = parseInt(localStorage.getItem("totalPoints"));
+          localStorage.setItem("totalPoints", totalPoints);
+        } else if (currentClue == 5) {
+          var totalPoints = parseInt(localStorage.getItem("totalPoints")) + 100;
+          localStorage.setItem("totalPoints", totalPoints);
+        } else if (currentClue == 4) {
+          var totalPoints = parseInt(localStorage.getItem("totalPoints")) + 200;
+          localStorage.setItem("totalPoints", totalPoints);
+        } else if (currentClue == 3) {
+          var totalPoints = parseInt(localStorage.getItem("totalPoints")) + 300;
+          localStorage.setItem("totalPoints", totalPoints);
+        } else if (currentClue == 2) {
+          var totalPoints = parseInt(localStorage.getItem("totalPoints")) + 400;
+          localStorage.setItem("totalPoints", totalPoints);
+        }
+      } else {
+        localStorage.setItem("totalPoints", 500);
+      }
+    } else {
+      alert("Oops! Your guess is incorrect. Get Clues ??");
+    }
+  }
+
+  const readInstructionsBtn = document.getElementById('read-instruction');
+  const instructionsBox = document.getElementById('instructions-box');
+  instructionsBox.style.display = 'none';
+
+  readInstructionsBtn.addEventListener('mouseover', () => {
+    instructionsBox.style.display = 'block';
+  });
+
+  readInstructionsBtn.addEventListener('mouseout', () => {
+    instructionsBox.style.display = 'none';
+  });
+
+
+  function restart() {
+    window.location.href = "../game.html";
+  }
+
+
+  function goBack() {
+    window.location.href = "../game.html";
+  }
+
+  instructionsBox.innerHTML = `
+<ul class="a">
+<li class="instruction"><strong>INSTRUCTIONS</strong></li>
+<li>There is a main question if you answer it you get 500 points</li>
+<li>There are 5 clues available ! Each clue divided into 100 points </li>
+<li>But each clue assigned with a Task ! if you fail to complete task that is deadend</li>
+<li>If you complete the task ! Then a clue will be displayed </li>
+<li>Your soft skills are also calculated for each step you take</li>
+<li>After 5 clues completed ! if you are not able to answer That is dead End
+</li>
+<li>If it is Deadend! You must Restart the game</li>
+</ul>
+
+
+`;
+</script>
+
+
+
+</html>

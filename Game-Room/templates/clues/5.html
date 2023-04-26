@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+  <!DOCTYPE html>
+  <html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <title>Game Room</title>
+      <link rel="stylesheet" href="../static/css/game-room.css" data-minify="1" />
+  </head>
+  <body class="bp-legacy">
+  
+      <nav class="navbar-gameroom navbar navbar-default navbar-fixed-top">
+          <div class="container">
+              <div class="navbar-header">
+                  <a class="navbar-brand" href="#"> <img src="../static/images/logo.png" alt="" /> </a>
+                  <button class="btn btn-sm" id="logout-btn" onclick="location.href='/logout'">
+                    <b>Logout</b>
+                  </button>
+              </div>
+           
+          </div>
+      </nav>
+      <section class="content-wrap">
+          <div class="gameroom-banner-parallax gameroom-banner gameroom-banner-id-1 mid banner-top">
+              <div class="image" data-speed="0.4">
+                  <img
+                      width="1400"
+                      height="100%"
+                      src="../static/images/background6.jpg"
+                      class="jarallax-img"
+                  />
+              </div>
+              <div class="info">
+                <div id="main-question">
+
+                        <h1>Clue 5</h1>
+                        <h5 class="quiz">I am not alive, but I grow; I don't have lungs, but I need air; I don't have a mouth, but water kills me. What am I?</h5>
+                        <br>
+                    
+                        <input type="text" id="answer-input" />
+                          <button class="btn btn-sm" id="submit-btn" value="Submit"  onclick="checkAnswer()">Submit Answer</button>
+                          <button id="b" class="btn btn-sm" id="adv-btn"  onclick="showHint()">Hint</button>
+                        <br />
+                        <br />
+                        <span>Time Remaining: <span id="timer">3:00</span></span>
+                        <br />
+                        <span>Current Points: <span id="points">100</span></span>
+                        <div id="hintToShow"></div>
+                        <div id="congrats"></div>
+                      </div>
+              </div>
+            
+          </div>
+         
+      </section>
+      <div class="copyright">
+        <div class="container">
+          <div><strong>Fouziya</strong> © 2023. All rights reserved</div>
+        </div>
+      </div>
+  
+  
+  </body>
+  
+    <!-- JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+    <script>
+      var timeLeft = 180;
+      var timer = setInterval(function () {
+        var minutes = Math.floor(timeLeft / 60);
+        var seconds = timeLeft % 60;
+        document.getElementById("timer").innerHTML =
+          minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        timeLeft -= 1;
+        if (timeLeft < 0) {
+          clearInterval(timer);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "Time is up!",
+          }).then(function () {
+            window.location.href = "/clues/game.html";
+          });
+        }
+      }, 1000);
+
+      var points = 100;
+      var totalPoints = parseInt(localStorage.getItem("totalPoints"));
+      var pointTimer = setInterval(function () {
+        points -= 1;
+        document.getElementById("points").innerHTML = points;
+
+        if (points <= 0) {
+          clearInterval(pointTimer);
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "You ran out of points!",
+          }).then(function () {
+            window.location.href = "/clues/game.html";
+          });
+        }
+      }, 15000);
+
+
+      function showHint() {
+        const hintToShowBtn = document.getElementById("b");
+    const hintToShow_ = document.getElementById("hintToShow");
+
+    const hintText =
+      "Fire is not a living organism, but it needs fuel to grow and continue burning. Fire does not have lungs, but it requires oxygen from the air to keep burning. Fire does not have a mouth, but it can be extinguished by water."
+    hintToShow_.innerHTML = `${hintText}`;
+      }
+      
+
+      function checkAnswer() {
+        var answer = document.getElementById("answer-input").value;
+        if (answer.toLowerCase() === "fire") {
+          clearInterval(timer);
+          clearInterval(pointTimer);
+          document.getElementById("congrats").style.visibility = "visible";
+          Swal.fire({
+            icon: "success",
+            title: "Congratulations!",
+            text: "You got it!",
+          }).then(function () {
+            document.getElementById("congrats").style.visibility = "hidden";
+            var totalPoints =
+              parseInt(localStorage.getItem("totalPoints")) + points;
+            localStorage.setItem("currentClue", 6);
+            localStorage.setItem("totalPoints", totalPoints);
+            window.location.href = "/clues/game.html";
+          });
+        } else {
+          points -= 5;
+          document.getElementById("points").innerHTML = points;
+          Swal.fire({
+            title: "Incorrect Answer!",
+            text: "Please try again.",
+            icon: "error",
+            confirmButtonText: "OK",
+          });
+        }
+      }
+    </script>
+ 
+  
+  
+  
+  </html>
+  
+
+
+
+
+
+  <!-- <head>
+    <title>Clue 2</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css"
+    />
+    <link
+      rel="icon"
+      href="https://thumbs.dreamstime.com/b/escape-to-island-concept-summer-seaside-landscape-blue-ocean-scenic-view-hand-drawn-tropica-poster-holiday-vacation-season-sea-136710208.jpg"
+      type="image/x-icon"
+    />
+    <style>
+      body {
+        background-image: url("https://media.istockphoto.com/id/1212575156/photo/yellow-light-bulb-on-blue-background.jpg?s=170667a&w=0&k=20&c=t_4P8FbarZN4PoOueFtwE6gU947gs-pvbKbfQhrFTpU=");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-size: 100% 100%;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+        font-family: Arial, sans-serif;
+        background-color: #f5f5f5;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        text-align: center;
+      }
+      input[type="text"] {
+        background-color: #f5f5f5;
+        color: #333;
+      }
+      label {
+        background-color: #f5f5f5;
+      }
+      input[type="text"],
+      button {
+        display: block;
+        margin: 0 auto;
+        padding: 10px;
+        border-radius: 5px;
+        font-size: 1.5rem;
+        border: none;
+        background-color: #f5f5f5;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        animation: slideIn 0.5s ease-in-out 1;
+        animation-fill-mode: forwards;
+      }
+
+      h1 {
+        font-size: 48px;
+        text-align: center;
+        margin: 50px 0;
+      }
+
+      p {
+        font-size: 24px;
+        text-align: center;
+      }
+
+      #answer {
+        font-size: 24px;
+        padding: 10px;
+        border: none;
+        border-radius: 5px;
+        margin-top: 20px;
+        margin-bottom: 50px;
+      }
+
+      button {
+        background-color: #333;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+      }
+
+      button:hover {
+        background-color: #fff;
+        color: #333;
+        border: 2px solid #333;
+      }
+
+      #timer,
+      #points {
+        font-size: 24px;
+        display: block;
+        margin-bottom: 50px;
+      }
+
+      #congrats {
+        text-align: center;
+        font-size: 36px;
+        font-weight: bold;
+        color: green;
+        margin-top: 50px;
+        display: none;
+      }
+
+      @media only screen and (max-width: 600px) {
+        h1 {
+          font-size: 36px;
+          margin: 30px 0;
+        }
+
+        p {
+          font-size: 20px;
+        }
+
+        #answer {
+          font-size: 20px;
+          margin-bottom: 30px;
+        }
+
+        button {
+          font-size: 16px;
+          padding: 8px 16px;
+        }
+
+        #timer,
+        #points {
+          font-size: 20px;
+          margin-bottom: 30px;
+        }
+
+        #congrats {
+          font-size: 24px;
+          margin-top: 30px;
+        }
+      }
+      #button-container {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 20px;
+      }
+      #a{
+        margin-left:600px;
+      }
+      #b{
+        margin-right:620px;
+      }
+    </style>
+  </head>
+  <body>
+  
+
+   
+  </body> -->
+</html>

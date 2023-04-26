@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Game Room</title>
+  <link rel="stylesheet" href="../static/css/game-room.css" data-minify="1" />
+</head>
+
+<body class="bp-legacy">
+
+  <nav class="navbar-gameroom navbar navbar-default navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#"> <img src="../static/images/logo.png" alt="" /> </a>
+        <button class="btn btn-sm" id="logout-btn" onclick="location.href='/logout'">
+          <b>Logout</b>
+        </button>
+      </div>
+
+    </div>
+  </nav>
+  <section class="content-wrap">
+    <div class="gameroom-banner-parallax gameroom-banner gameroom-banner-id-1 mid banner-top">
+      <div class="image" data-speed="0.4">
+        <img width="1400" height="100%" src="../static/images/background6.jpg" class="jarallax-img" />
+      </div>
+      <div class="info">
+        <div>
+          <div class="">
+            <h2>
+              Welcome to the <br />
+              Game Room
+            </h2>
+            <p>&nbsp;</p>
+            <a class="btn btn-lg" target="_self" onclick="startAdventure()"> Start the Game </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </section>
+  <div class="copyright">
+    <div class="container">
+      <div><strong>Fouziya</strong> © 2023. All rights reserved</div>
+    </div>
+  </div>
+
+
+</body>
+
+<!-- JavaScript -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  function getUserDetails() {
+    $.get("/leaderboard_data", function (data) {
+      console.log(data);
+      var content = '';
+      for (var i = 0; i < data.length; i++) {
+        var username = data[i]["username"];
+        var points = data[i]["points"];
+        content +=
+          '<span style="color:#ef42f5;">' +
+          username +
+          '</span> => <span style="color: lime;">' +
+          points +
+          "</span> POINTS !<br>";
+      }
+      $("#total-points-content").html(content);
+      const instructionsBox = document.getElementById('total-points-box');
+      instructionsBox.style.display = 'block';
+    });
+  };
+  const instructionsBox = document.getElementById('total-points-box');
+
+
+
+
+  function startAdventure() {
+    localStorage.clear();
+    window.location.href = "/clues/game.html";
+  }
+</script>
+
+
+
+</html>
