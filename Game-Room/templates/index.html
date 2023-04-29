@@ -5,13 +5,13 @@
     <link rel="shortcut icon" href="https://wp.nkdev.info/youplay/wp-content/themes/youplay/assets/images/icon.png" />
     <title>Game Room</title>
 </head>
-<style>* Style the tab */
+<style>
     .tab {
-      float: left;
-      border: 1px solid #ccc;
-      background-color: #f1f1f1;
-      width: 30%;
-      height: 300px;
+      display: flex;
+      gap: 10px;
+      flex-direction: row;
+      margin-bottom: 20px;
+      padding: 20px;
     }
     
     /* Style the buttons inside the tab */
@@ -36,15 +36,14 @@
     /* Create an active/current "tab button" class */
     .tab button.active {
         text-decoration: underline;
-
     }
     
     /* Style the tab content */
     .tabcontent {
      padding: 0px 12px;
-    width: auto;
-    border-left: none;
-    text-align: center;
+      width: auto;
+      border-left: none;
+      text-align: center;
     }
     .tabcontent2{
         display: none;
@@ -65,8 +64,8 @@
         <div class="form-box">
             <div class="form-value">
                     <div class="tab">
-                        <button class="tablinks" onmouseover="openCity(event, 'userlogin')">UserLogin</button>
-                        <button class="tablinks" onmouseover="openCity(event, 'adminlogin')">Admin Login</button>
+                        <button class="tablinks" onmouseover="selectLogin(event, 'userlogin')">UserLogin</button>
+                        <button class="tablinks" onmouseover="selectLogin(event, 'adminlogin')">Admin Login</button>
                       </div>
                       <div id="userlogin" class="tabcontent">
                         <form  method="post" action="/login">
@@ -128,7 +127,7 @@
     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
 </body>
 <script>
-    function openCity(evt, cityName) {
+    function selectLogin(evt, cityName) {
   var i, tabcontent, tablinks;
   tabcontent = document.getElementsByClassName("tabcontent");
   for (i = 0; i < tabcontent.length; i++) {

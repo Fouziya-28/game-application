@@ -185,9 +185,9 @@ def alogin():
             return render_template('agame.html')
         else:
             error = 'Incorrect email or password. Please try again.'
-            return render_template('alogin.html', error=error)
+            return render_template('index.html', error=error)
     else:
-        return render_template('alogin.html')
+        return render_template('index.html')
 
     
 # Route to display all users
